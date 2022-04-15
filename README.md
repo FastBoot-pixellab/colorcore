@@ -1,2 +1,4 @@
 # colorcore
-again
+gdps core?
+
+0% ready
