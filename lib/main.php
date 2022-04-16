@@ -42,6 +42,36 @@ class main {
             return $query->fetchColumn() + 1;
         } else return 0;
     }
+    static function genMulti($lvlsmultistring) {
+		$lvlsarray = explode(",", $lvlsmultistring);
+		include "db.php";
+		$hash = "";
+		foreach($lvlsarray as $id){
+			//moving levels into the new system
+			if(!is_numeric($id)){
+				exit("-1");
+			}
+			$query=$db->prepare("SELECT ID, stars, coins FROM levels WHERE ID = :id");
+			$query->execute([':id' => $id]);
+			$result2 = $query->fetchAll();
+			$result = $result2[0];
+			//generating the hash
+			$hash = $hash . $result["ID"][0].$result["ID"][strlen($result["ID"])-1].$result["stars"].$result["coins"];
+		}
+		return sha1($hash . "xI25fpAapCQg");
+	}
+    static function getUserString($accountID) {
+		include "db.php";
+		$query = $db->prepare("SELECT ID, userName FROM accounts WHERE ID = :user");
+		$query->execute([':user' => $accountID]);
+		$usr = $query->fetch();
+		if(is_numeric($usr["ID"])){
+			$accountID = $usr["ID"];
+		}else{
+			$accountID = 0;
+		}
+		return $accountID.":".$usr["userName"].":".$accountID;
+	}
 }
 
 class GJP {
