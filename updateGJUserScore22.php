@@ -1,7 +1,6 @@
 <?php
 require 'lib/db.php';
 require 'lib/main.php';
-$GJPcheck = new GJP();
 
 $accountID = $_POST['accountID'];
 $gjp = $_POST['gjp'];
@@ -25,7 +24,7 @@ $accGlow = $_POST['accGlow'];
 $accSpider = $_POST['accSpider'];
 $accExplosion = $_POST['accExplosion'];
 
-$GJPcheck::check($accountID, $gjp);
+GJP::check($accountID, $gjp);
 $query = $db->prepare("UPDATE accounts SET
     stars=:stars,
     demons=:demons,

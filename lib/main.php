@@ -21,6 +21,27 @@ class main {
             } else return -2;
         } else return -1;
     }
+    static function getBadge($accountID) {
+        include 'db.php';
+        $query = $db->prepare("SELECT type FROM modbadges WHERE accountID = :accountID LIMIT 1");
+        $query->execute([':accountID' => $accountID]);
+        if($query->rowCount() > 0) {
+            $badge = $query->fetchColumn();
+            if($badge >= 2) return 2;
+            return $badge;
+        } else return -1;
+    }
+    static function getRank($accountID) {
+        include 'db.php';
+        $query = $db->prepare("SELECT stars FROM accounts WHERE ID = :ID");
+        $query->execute([':ID' => $accountID]);
+        $stars = $query->fetchColumn();
+        $query = $db->prepare("SELECT count(*) FROM accounts WHERE stars > :stars AND isBanned = 0");
+        $query->execute([':stars' => $stars]);
+        if($query->rowCount() > 0) {
+            return $query->fetchColumn() + 1;
+        } else return 0;
+    }
 }
 
 class GJP {

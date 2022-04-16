@@ -1,7 +1,6 @@
 <?php
 require 'lib/db.php';
 require 'lib/main.php';
-$GJPcheck = new GJP();
 
 $accountID = $_POST['accountID'];
 $gjp = $_POST['gjp'];
@@ -12,7 +11,7 @@ $yt = $_POST['yt'];
 $twitter = $_POST['twitter'];
 $twitch = $_POST['twitch'];
 
-$GJPcheck::check($accountID, $gjp);
+GJP::check($accountID, $gjp);
 $query = $db->prepare("UPDATE accounts SET
     ms=:ms,
     frs=:frs,
