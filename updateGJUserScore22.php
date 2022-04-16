@@ -23,6 +23,7 @@ $accRobot = $_POST['accRobot'];
 $accGlow = $_POST['accGlow'];
 $accSpider = $_POST['accSpider'];
 $accExplosion = $_POST['accExplosion'];
+$special = $_POST['special'];
 
 GJP::check($accountID, $gjp);
 $query = $db->prepare("UPDATE accounts SET
@@ -43,7 +44,8 @@ $query = $db->prepare("UPDATE accounts SET
     accRobot=:accRobot,
     accGlow=:accGlow,
     accSpider=:accSpider,
-    accExplosion=:accExplosion
+    accExplosion=:accExplosion,
+    special=:special
 WHERE ID = :ID");
 $query->execute([
     ':stars' => $stars,
@@ -64,6 +66,7 @@ $query->execute([
     ':accGlow' => $accGlow,
     ':accSpider' => $accSpider,
     ':accExplosion' => $accExplosion,
+    ':special' => $special,
     ':ID' => $accountID
 ]);
 $query = $db->prepare("SELECT ID FROM accounts WHERE userName = :userName");
