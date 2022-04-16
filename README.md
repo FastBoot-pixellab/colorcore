@@ -1,4 +1,4 @@
 # colorcore
 gdps core?
 
-8% ready
+10% ready
