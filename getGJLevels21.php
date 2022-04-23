@@ -10,7 +10,7 @@ $original = $_POST['original'];
 $page = $_POST['page'];
 //$len = $_POST['len'];
 $str = $_POST['str'];
-//$twoPlayer = $_POST['twoPlayer'];
+$twoPlayer = $_POST['twoPlayer'];
 
 $lvlsmultistring = array();$lvlstring = "";$userstring = "";$songsstring = "";
 $offset = $page * 10;
@@ -18,6 +18,7 @@ $qparams = array("unlisted = 0");
 if($featured == 1) $qparams[] = "featured = 1";
 if($epic == 1) $qparams[] = "epic = 1";
 if($original == 1) $qparams[] = "original = 1";
+if($twoPlayer == 1) $qparams[] = "twoPlayer = 1";
 if($type == 2) { //params without anything
 	$q = "SELECT * FROM levels WHERE (" . implode(") AND (", $qparams) . ") LIMIT 10 OFFSET $offset";
 	$query = $db->prepare($q);
