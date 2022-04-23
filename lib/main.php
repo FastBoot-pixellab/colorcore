@@ -42,35 +42,24 @@ class main {
             return $query->fetchColumn() + 1;
         } else return 0;
     }
-    static function genMulti($lvlsmultistring) {
-		$lvlsarray = explode(",", $lvlsmultistring);
-		include "db.php";
-		$hash = "";
-		foreach($lvlsarray as $id){
-			//moving levels into the new system
-			if(!is_numeric($id)){
-				exit("-1");
-			}
-			$query=$db->prepare("SELECT ID, stars, coins FROM levels WHERE ID = :id");
-			$query->execute([':id' => $id]);
-			$result2 = $query->fetchAll();
-			$result = $result2[0];
-			//generating the hash
-			$hash = $hash . $result["ID"][0].$result["ID"][strlen($result["ID"])-1].$result["stars"].$result["coins"];
-		}
-		return sha1($hash . "xI25fpAapCQg");
+    static function getUserString($userdata) {
+		include "/db.php";
+		// $extID = is_numeric($userdata['extID']) ? $userdata['extID'] : 0;
+		return $userdata['accountID'] . ':' . $userdata['userName'] . ':' . $userdata['accountID'];
 	}
-    static function getUserString($accountID) {
-		include "db.php";
-		$query = $db->prepare("SELECT ID, userName FROM accounts WHERE ID = :user");
-		$query->execute([':user' => $accountID]);
-		$usr = $query->fetch();
-		if(is_numeric($usr["ID"])){
-			$accountID = $usr["ID"];
-		}else{
-			$accountID = 0;
+    static function getSongString($song) {
+		include "/db.php";
+		/*$query3=$db->prepare("SELECT ID,name,authorID,authorName,size,isDisabled,download FROM songs WHERE ID = :songid LIMIT 1");
+		$query3->execute([':songid' => $songID]);*/
+		if($song['ID'] == 0 || empty($song['ID'])){
+			return false;
 		}
-		return $accountID.":".$usr["userName"].":".$accountID;
+		//$song = $query3->fetch();
+		$dl = $song["download"];
+		if(strpos($dl, ':') !== false){
+			$dl = urlencode($dl);
+		}
+		return "1~|~".$song["ID"]."~|~2~|~".str_replace("#", "", $song["name"])."~|~3~|~".$song["authorID"]."~|~4~|~".$song["authorName"]."~|~5~|~".$song["size"]."~|~6~|~~|~10~|~".$dl."~|~7~|~~|~8~|~1";
 	}
 }
 
@@ -93,4 +82,19 @@ class GJP {
         if(password_verify($gjpdecode, $hash)) return;
         else exit('-1');
     }
+}
+
+class Hash {
+	static function genMulti($lvlsarray) {
+		include "db.php";
+		$hash = "";
+		foreach($lvlsarray as $id){
+			$query=$db->prepare("SELECT ID, starStars, starCoins FROM levels WHERE ID = :id");
+			$query->execute([':id' => $id]);
+			$result2 = $query->fetchAll();
+			$result = $result2[0];
+			$hash = $hash . $result["ID"][0].$result["ID"][strlen($result["ID"])-1].$result["starStars"].$result["starCoins"];
+		}
+		return sha1($hash . "xI25fpAapCQg");
+	}
 }
