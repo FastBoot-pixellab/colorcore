@@ -97,4 +97,19 @@ class Hash {
 		}
 		return sha1($hash . "xI25fpAapCQg");
 	}
+    static function genSolo($levelstring) {
+		$hash = "aaaaa";
+		$len = strlen($levelstring);
+		$divided = intval($len/40);
+		$p = 0;
+		for($k = 0; $k < $len ; $k= $k+$divided){
+			if($p > 39) break;
+			$hash[$p] = $levelstring[$k]; 
+			$p++;
+		}
+		return sha1($hash . "xI25fpAapCQg");
+	}
+    static function genSolo2($lvlsmultistring) {
+		return sha1($lvlsmultistring . "xI25fpAapCQg");
+	}
 }

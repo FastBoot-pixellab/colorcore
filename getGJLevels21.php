@@ -36,9 +36,9 @@ if($type == 2) { //params without anything
 		}
 	}
 } else if($type == 0) { //search
-	$q = "SELECT * FROM levels WHERE levelName LIKE '%$str%' AND (" . implode(" AND (", $qparams) . ") LIMIT 10 OFFSET $offset";
+	$q = "SELECT * FROM levels WHERE levelName LIKE :q AND (" . implode(" AND (", $qparams) . ") LIMIT 10 OFFSET $offset";
 	$query = $db->prepare($q);
-	$query->execute();
+	$query->execute([':q' => '%'.$str.'%']);
 	$levels = $query->fetchAll();
 	foreach($levels as $level) {
 		$lvlsmultistring[] = $level["ID"];
@@ -56,5 +56,5 @@ $lvlstring = substr($lvlstring, 0, -1);
 $userstring = substr($userstring, 0, -1);
 $songsstring = substr($songsstring, 0, -3);
 echo $lvlstring."#".$userstring;
-echo '#'.$songsstring.'#'.$query->rowCount().':'.$offset.':10'.'#';
+echo '#'.$songsstring.'#'.$query->rowCount().':'.$offset.':10#';
 echo Hash::genMulti($lvlsmultistring);
