@@ -1,13 +1,9 @@
 <?php
 require 'lib/db.php';
 require 'lib/main.php';
-//require 'lib/XORCipher.php';
 
 $levelID = $_POST['levelID'];
-//$accountID = $_POST['accountID'];
-//$gjp = $_POST['gjp'];
 
-//GJP::check($accountID, $gjp);
 $query = $db->prepare("SELECT * FROM levels WHERE levelID = :levelID");
 $query->execute([':levelID' => $levelID]);
 $level = $query->fetch();

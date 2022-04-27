@@ -25,14 +25,14 @@ if($type == 2) { //params without anything
 	$query->execute();
 	$levels = $query->fetchAll();
 	foreach($levels as $level) {
-		$lvlsmultistring[] = $level["ID"];
-		$lvlstring .= "1:".$level["ID"].":2:".$level["levelName"].":5:".$level["levelVersion"].":6:".$level["accountID"].":8:10:9:".$level["starDifficulty"].":10:".$level["downloads"].":12:".$level["audioTrack"].":13:21:14:".$level["likes"].":17:".$level["starDemon"].":43:".$level["starDemonDiff"].":25:".$level["auto"].":18:".$level["starStars"].":19:".$level["featured"].":42:".$level["epic"].":45:".$level["objects"].":3:".$level["levelDesc"].":15:".$level["levelLength"].":30:".$level["original"].":31:".$level['twoPlayer'].":37:".$level["coins"].":38:".$level["starCoins"].":39:".$level["requestedStars"].":46:1:47:2:40:".$level["ldm"].":35:".$level["songID"]."|";
+		$lvlsmultistring[] = $level["levelID"];
+		$lvlstring .= "1:".$level["levelID"].":2:".$level["levelName"].":5:".$level["levelVersion"].":6:".$level["accountID"].":8:10:9:".$level["starDifficulty"].":10:".$level["downloads"].":12:".$level["audioTrack"].":13:21:14:".$level["likes"].":17:".$level["starDemon"].":43:".$level["starDemonDiff"].":25:".$level["auto"].":18:".$level["starStars"].":19:".$level["featured"].":42:".$level["epic"].":45:".$level["objects"].":3:".$level["levelDesc"].":15:".$level["levelLength"].":30:".$level["original"].":31:".$level['twoPlayer'].":37:".$level["coins"].":38:".$level["starCoins"].":39:".$level["requestedStars"].":46:1:47:2:40:".$level["ldm"].":35:".$level["songID"]."|";
 		if($level["songID"] != 0) {
 			$song = main::getSongString($level);
 			if($song) {
 				$songsstring .= $song . "~:~";
 			}
-			$userstring .= main::getUserString($level1)."|";
+			$userstring .= main::getUserString($level)."|";
 		}
 	}
 } else if($type == 0) { //search
