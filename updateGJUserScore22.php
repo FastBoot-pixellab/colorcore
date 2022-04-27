@@ -46,7 +46,7 @@ $query = $db->prepare("UPDATE accounts SET
     accSpider=:accSpider,
     accExplosion=:accExplosion,
     special=:special
-WHERE ID = :ID");
+WHERE accountID = :ID");
 $query->execute([
     ':stars' => $stars,
     ':demons' => $demons,
@@ -69,7 +69,7 @@ $query->execute([
     ':special' => $special,
     ':ID' => $accountID
 ]);
-$query = $db->prepare("SELECT ID FROM accounts WHERE userName = :userName");
+$query = $db->prepare("SELECT accountID FROM accounts WHERE userName = :userName");
 $query->execute([':userName' => $userName]);
 $id = $query->fetchColumn();
 echo $id;

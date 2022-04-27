@@ -19,6 +19,6 @@ $query = $db->prepare("UPDATE accounts SET
     yt=:yt,
     twitter=:twitter,
     twitch=:twitch
-WHERE ID = :accountID");
+WHERE accountID = :accountID");
 $query->execute([':ms' => $ms, ':frs' => $frs, ':cs' => $cs, ':yt' => $yt, ':twitter' => $twitter, ':twitch' => $twitch, ':accountID' => $accountID]);
 echo '1';

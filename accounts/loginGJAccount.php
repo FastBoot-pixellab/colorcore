@@ -7,7 +7,7 @@ $password = $_POST['password'];
 
 main::checkAccount($userName, $password);
 if($check == 1) {
-    $query = $db->prepare("SELECT ID FROM accounts WHERE userName = :userName");
+    $query = $db->prepare("SELECT accountID FROM accounts WHERE userName = :userName");
     $query->execute([':userName' => $userName]);
     $id = $query->fetchColumn();
     echo $id.','.$id;

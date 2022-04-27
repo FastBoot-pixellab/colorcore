@@ -2,10 +2,13 @@
 class main {
     static function getIP() {
         if(!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            if($_SERVER['HTTP_CLIENT_IP'] == '::1') return '127.0.0.1';
             return $_SERVER['HTTP_CLIENT_IP'];
         } else if(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            if($_SERVER['HTTP_X_FORWARDED_FOR'] == '::1') return '127.0.0.1';
             return $_SERVER['HTTP_X_FORWARDED_FOR'];
         } else if(!empty($_SERVER['REMOTE_ADDR'])) {
+            if($_SERVER['REMOTE_ADDR'] == '::1') return '127.0.0.1';
             return $_SERVER['REMOTE_ADDR'];
         } else return null;
     }
@@ -33,7 +36,7 @@ class main {
     }
     static function getRank($accountID) {
         include 'db.php';
-        $query = $db->prepare("SELECT stars FROM accounts WHERE ID = :ID");
+        $query = $db->prepare("SELECT stars FROM accounts WHERE accountID = :ID");
         $query->execute([':ID' => $accountID]);
         $stars = $query->fetchColumn();
         $query = $db->prepare("SELECT count(*) FROM accounts WHERE stars > :stars AND isBanned = 0");
@@ -44,13 +47,10 @@ class main {
     }
     static function getUserString($userdata) {
 		include "/db.php";
-		// $extID = is_numeric($userdata['extID']) ? $userdata['extID'] : 0;
 		return $userdata['accountID'] . ':' . $userdata['userName'] . ':' . $userdata['accountID'];
 	}
     static function getSongString($song) {
 		include "/db.php";
-		/*$query3=$db->prepare("SELECT ID,name,authorID,authorName,size,isDisabled,download FROM songs WHERE ID = :songid LIMIT 1");
-		$query3->execute([':songid' => $songID]);*/
 		if($song['ID'] == 0 || empty($song['ID'])){
 			return false;
 		}
@@ -76,7 +76,7 @@ class GJP {
     static function check($accountID, $gjp) {
         require dirname(__FILE__).'/db.php';
         $gjpdecode = GJP::decode($gjp);
-        $query = $db->prepare("SELECT password FROM accounts WHERE ID = :ID");
+        $query = $db->prepare("SELECT password FROM accounts WHERE accountID = :ID");
         $query->execute([':ID' => $accountID]);
         $hash = $query->fetchColumn();
         if(password_verify($gjpdecode, $hash)) return;
@@ -89,11 +89,11 @@ class Hash {
 		include "db.php";
 		$hash = "";
 		foreach($lvlsarray as $id){
-			$query=$db->prepare("SELECT ID, starStars, starCoins FROM levels WHERE ID = :id");
+			$query=$db->prepare("SELECT levelID, starStars, starCoins FROM levels WHERE levelID = :id");
 			$query->execute([':id' => $id]);
 			$result2 = $query->fetchAll();
 			$result = $result2[0];
-			$hash = $hash . $result["ID"][0].$result["ID"][strlen($result["ID"])-1].$result["starStars"].$result["starCoins"];
+			$hash = $hash . $result["levelID"][0].$result["levelID"][strlen($result["levelID"])-1].$result["starStars"].$result["starCoins"];
 		}
 		return sha1($hash . "xI25fpAapCQg");
 	}

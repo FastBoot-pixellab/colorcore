@@ -30,7 +30,7 @@ GJP::check($accountID, $gjp);
 $query = $db->prepare("SELECT count(*) FROM levels WHERE accountID = :accountID AND levelName = :levelName");
 $query->execute([':accountID' => $accountID, ':levelName' => $levelName]);
 if($levelVersion == 1 && $levelID == 0 && $query->fetchColumn() == 0) {
-    //new level
+    //upload level
     $query = $db->prepare("INSERT INTO levels (accountID, levelName, levelDesc, levelVersion, levelLength, audioTrack, auto, password, original, twoPlayer, songID, objects, coins, requestedStars, unlisted, wt, wt2, ldm, timestamp, extraString, levelInfo) VALUES (
         :accountID,
         :levelName,
@@ -78,7 +78,7 @@ if($levelVersion == 1 && $levelID == 0 && $query->fetchColumn() == 0) {
         ':levelInfo' => $levelInfo
     ]);
     $id = $db->lastInsertId();
-    //why not db? levelstring may be so large.
+    //why not? levelstring may be so large.
     file_put_contents(__DIR__."/levels/$id.uwu", $levelString);
     echo $id;
 } else {
@@ -104,7 +104,7 @@ if($levelVersion == 1 && $levelID == 0 && $query->fetchColumn() == 0) {
         ldm=:ldm,
         extraString=:extraString,
         levelInfo=:levelInfo
-    WHERE ID = :ID AND accountID = :accountID");
+    WHERE levelID = :ID AND accountID = :accountID");
     $query->execute([
         ':accountID' => $accountID,
         ':levelName' => $levelName,
@@ -129,7 +129,7 @@ if($levelVersion == 1 && $levelID == 0 && $query->fetchColumn() == 0) {
         ':ID' => $levelID,
         ':accountID' => $accountID
     ]);
-    $query = $db->prepare("SELECT ID FROM levels WHERE accountID = :accountID AND levelName = :levelName");
+    $query = $db->prepare("SELECT levelID FROM levels WHERE accountID = :accountID AND levelName = :levelName");
     $query->execute([':accountID' => $accountID, ':levelName' => $levelName]);
     $id = $query->fetchColumn();
     file_put_contents(__DIR__."/levels/$id.uwu", $levelString);
