@@ -66,6 +66,32 @@ class main {
 		}
 		return "1~|~".$song["ID"]."~|~2~|~".str_replace("#", "", $song["name"])."~|~3~|~".$song["authorID"]."~|~4~|~".$song["authorName"]."~|~5~|~".$song["size"]."~|~6~|~~|~10~|~".$dl."~|~7~|~~|~8~|~1";
 	}
+    static function rateLevel($levelID, $stars, $diff, $feature) {
+        require 'db.php';
+        if($diff[1] == 1) {
+            $query = $db->prepare("UPDATE levels SET auto = 1, starDemon = 0, starStars = :stars, starDifficulty = :diff, featured = :featured WHERE levelID = :levelID");
+            $query->execute([':stars' => $stars, ':diff' => $diff[0], ':featured' => $feature, ':levelID' => $levelID]);
+        } else if($diff[1] == 2) {
+            $query = $db->prepare("UPDATE levels SET auto = 0, starDemon = 0, starStars = :stars, starDifficulty = :diff, featured = :featured WHERE levelID = :levelID");
+            $query->execute([':stars' => $stars, ':diff' => $diff[0], ':featured' => $feature, ':levelID' => $levelID]);
+        } else if($diff[1] == 3) {
+            $query = $db->prepare("UPDATE levels SET auto = 0, starDemon = 1, starStars = :stars, starDifficulty = :diff, featured = :featured WHERE levelID = :levelID");
+            $query->execute([':stars' => $stars, ':diff' => $diff[0], ':featured' => $feature, ':levelID' => $levelID]);
+        } else {
+            $query = $db->prepare("UPDATE levels SET auto = 0, starDemon = 0, starStars = :stars, starDifficulty = :diff, featured = :featured WHERE levelID = :levelID");
+            $query->execute([':stars' => $stars, ':diff' => $diff[0], ':featured' => $feature, ':levelID' => $levelID]);
+        }
+    }
+    static function getDiffFromStars($stars) {
+        if($stars == 0) return array(0, 0);
+        if($stars == 2) return array(10, 0);
+        if($stars == 3) return array(20, 0);
+        if($stars == 4 || $stars == 5) return array(30, 0);
+        if($stars == 6 || $stars == 7) return array(40, 0);
+        if($stars == 8 || $stars == 9) return array(50, 2);
+        if($stars == 10) return array(50, 3);
+        if($stars == 1) return array(50, 1);
+    }
 }
 
 class GJP {

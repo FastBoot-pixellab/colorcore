@@ -29,4 +29,6 @@ $response .= "#" . Hash::genSolo($levelstring) . "#";
 $somestring = $level["accountID"].",".$level["starStars"].",".$level["starDemon"].",".$level["levelID"].",".$level["starCoins"].",".$level["featured"].",".$pass.",0";
 $response .= Hash::genSolo2($somestring);
 //$response .= "#" . $somestring;
+$query = $db->prepare("UPDATE levels SET downloads = (downloads + 1) WHERE levelID = :levelID");
+$query->execute([':levelID' => $levelID]);
 echo $response;
