@@ -34,6 +34,11 @@ class main {
             return $badge;
         } else return -1;
     }
+    static function getColor($badge) {
+        if($badge == 1) return '255,178,0';
+        else if($badge == 2) return '248,255,0';
+        else return '255,255,255';
+    }
     static function getRank($accountID) {
         include 'db.php';
         $query = $db->prepare("SELECT stars FROM accounts WHERE accountID = :ID");

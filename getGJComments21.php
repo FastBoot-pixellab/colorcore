@@ -39,7 +39,6 @@ $query = $db->prepare($query);
 $query->execute([':filterID' => $filterID]);
 $result = $query->fetchAll();
 $visiblecount = $query->rowCount();
-//var_dump($result);
 foreach($result as $comment) {
 	$uploadDate = date("d/m/Y G.i", $comment["timestamp"]);
 	$commentText = base64_decode($comment["comment"]);
@@ -48,20 +47,13 @@ foreach($result as $comment) {
 	if ($comment['userName']) {
 		$extID = $comment['accountID'];
 		$badge = main::getBadge($extID);
-		$colorString = $badge > 0 ? "~12~255,255,255" : "";
-
+		$color = main::getColor($badge);
+		$colorString = $badge > 0 ? "~12~".$color : "";
 		$commentstring .= "~11~${badge}${colorString}:1~".$comment["userName"]."~7~1~9~".$comment["icon"]."~10~".$comment["color1"]."~11~".$comment["color2"]."~14~".$comment["iconType"]."~15~".$comment["special"]."~16~".$comment["accountID"];
-		// } else if(!in_array($comment["userID"], $users)){
-		// 	$users[] = $comment["userID"];
-		// 	$userstring .=  $comment["userID"] . ":" . $comment["userName"] . ":" . $extID . "|";
-		// }
 		$commentstring .= "|";
 	}
 }
+if($visiblecount == 0) exit('-2');
 $commentstring = substr($commentstring, 0, -1);
 echo $commentstring;
-// if($binaryVersion < 32){
-// 	$userstring = substr($userstring, 0, -1);
-// 	echo "#$userstring";
-// }
 echo "#${commentcount}:${commentpage}:${visiblecount}";

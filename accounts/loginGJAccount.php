@@ -5,7 +5,7 @@ require '../lib/main.php';
 $userName = $_POST['userName'];
 $password = $_POST['password'];
 
-main::checkAccount($userName, $password);
+$check = main::checkAccount($userName, $password);
 if($check == 1) {
     $query = $db->prepare("SELECT accountID FROM accounts WHERE userName = :userName");
     $query->execute([':userName' => $userName]);

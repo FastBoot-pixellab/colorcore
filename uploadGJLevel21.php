@@ -57,7 +57,7 @@ if($levelVersion == 1 && $levelID == 0 && $query->fetchColumn() == 0) {
     $query->execute([
         ':accountID' => $accountID,
         ':levelName' => $levelName,
-        ':levelDesc' => base64_decode($levelDesc),
+        ':levelDesc' => ($levelDesc == '') ? "Tm8gZGVzY3JpcHRpb24u" : $levelDesc,
         ':levelVersion' => $levelVersion,
         ':levelLength' => $levelLength,
         ':audioTrack' => $audioTrack,
@@ -108,7 +108,7 @@ if($levelVersion == 1 && $levelID == 0 && $query->fetchColumn() == 0) {
     $query->execute([
         ':accountID' => $accountID,
         ':levelName' => $levelName,
-        ':levelDesc' => base64_decode($levelDesc),
+        ':levelDesc' => ($levelDesc == '') ? "Tm8gZGVzY3JpcHRpb24u" : $levelDesc,
         ':levelVersion' => $levelVersion,
         ':levelLength' => $levelLength,
         ':audioTrack' => $audioTrack,
