@@ -69,18 +69,15 @@ class main {
     static function rateLevel($levelID, $stars, $diff, $feature) {
         require 'db.php';
         if($diff[1] == 1) {
-            $query = $db->prepare("UPDATE levels SET auto = 1, starDemon = 0, starStars = :stars, starDifficulty = :diff, featured = :featured WHERE levelID = :levelID");
-            $query->execute([':stars' => $stars, ':diff' => $diff[0], ':featured' => $feature, ':levelID' => $levelID]);
+            $query = $db->prepare("UPDATE levels SET rateTimestamp = :time, auto = 1, starDemon = 0, starStars = :stars, starDifficulty = :diff, featured = :featured WHERE levelID = :levelID");
         } else if($diff[1] == 2) {
-            $query = $db->prepare("UPDATE levels SET auto = 0, starDemon = 0, starStars = :stars, starDifficulty = :diff, featured = :featured WHERE levelID = :levelID");
-            $query->execute([':stars' => $stars, ':diff' => $diff[0], ':featured' => $feature, ':levelID' => $levelID]);
+            $query = $db->prepare("UPDATE levels SET rateTimestamp = :time, auto = 0, starDemon = 0, starStars = :stars, starDifficulty = :diff, featured = :featured WHERE levelID = :levelID");
         } else if($diff[1] == 3) {
-            $query = $db->prepare("UPDATE levels SET auto = 0, starDemon = 1, starStars = :stars, starDifficulty = :diff, featured = :featured WHERE levelID = :levelID");
-            $query->execute([':stars' => $stars, ':diff' => $diff[0], ':featured' => $feature, ':levelID' => $levelID]);
+            $query = $db->prepare("UPDATE levels SET rateTimestamp = :time, auto = 0, starDemon = 1, starStars = :stars, starDifficulty = :diff, featured = :featured WHERE levelID = :levelID");
         } else {
-            $query = $db->prepare("UPDATE levels SET auto = 0, starDemon = 0, starStars = :stars, starDifficulty = :diff, featured = :featured WHERE levelID = :levelID");
-            $query->execute([':stars' => $stars, ':diff' => $diff[0], ':featured' => $feature, ':levelID' => $levelID]);
+            $query = $db->prepare("UPDATE levels SET rateTimestamp = :time, auto = 0, starDemon = 0, starStars = :stars, starDifficulty = :diff, featured = :featured WHERE levelID = :levelID");
         }
+        $query->execute([':time' => time(), ':stars' => $stars, ':diff' => $diff[0], ':featured' => $feature, ':levelID' => $levelID]);
     }
     static function getDiffFromStars($stars) {
         if($stars == 0) return array(0, 0);
