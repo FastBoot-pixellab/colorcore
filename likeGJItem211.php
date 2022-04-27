@@ -19,4 +19,9 @@ if($type == 1) { //level
     else if($like == 0) $query = $db->prepare("UPDATE acccomments SET likes = (likes - 1) WHERE ID = :itemID");
     $query->execute([':itemID' => $itemID]);
     echo '1';
+} else if($type == 2) { //comment
+    if($like == 1) $query = $db->prepare("UPDATE comments SET likes = (likes + 1) WHERE commentID = :itemID");
+    else if($like == 0) $query = $db->prepare("UPDATE comments SET likes = (likes - 1) WHERE commentID = :itemID");
+    $query->execute([':itemID' => $itemID]);
+    echo '1';
 }
