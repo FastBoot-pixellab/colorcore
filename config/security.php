@@ -2,15 +2,16 @@
 /* GDPS account activation */
 
 /*
+    0 - Disable activation (login immediately after registration)
     1 - HCaptcha (activate here: http://yourhost.com/database/activateAccount.php)
     2 - reCAPTCHA (activate here: http://yourhost.com/database/activateAccount.php)
     3 - Mail (SMTP server required)
 */
-$activationType = 1;
+$activationType = 0;
 
 if($activationType == 1) {
     $HCaptchaKey = '';
-    $HCaptchaSecret = '';
+    $HCaptchaSecret = ''; //0x...
 }
 if($activationType == 2) {
     $reCaptchaKey = '';

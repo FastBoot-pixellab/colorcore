@@ -2,10 +2,10 @@
 require 'lib/db.php';
 require 'lib/main.php';
 
-$accountID = $_POST['accountID'];
-$gjp = $_POST['gjp'];
-$levelID = $_POST['levelID'];
-$rating = $_POST['rating'];
+$accountID = post::number($_POST['accountID']);
+$gjp = post::clear($_POST['gjp']);
+$levelID = post::number($_POST['levelID']);
+$rating = post::number($_POST['rating']);
 
 GJP::check($accountID, $gjp);
 $badge = main::getBadge($accountID);

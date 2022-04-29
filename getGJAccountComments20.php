@@ -1,8 +1,9 @@
 <?php
 require 'lib/db.php';
+require 'lib/main.php';
 
-$accountID = $_POST["accountID"];
-$page = $_POST["page"];
+$accountID = post::number($_POST["accountID"]);
+$page = post::number($_POST["page"]);
 
 $commentpage = $page * 10;
 $commentstr = '';

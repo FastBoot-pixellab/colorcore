@@ -85,4 +85,5 @@ if($activationType == 1) {
             echo 'Account activated!';
         } else echo 'Invalid token';
     } else echo "Token doesn't exist";
-} else echo "Invalid activation type";
+} else if($activationType == 0) echo "You don't need to activate account";
+else echo "Invalid activation type";

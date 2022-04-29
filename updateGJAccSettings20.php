@@ -2,14 +2,14 @@
 require 'lib/db.php';
 require 'lib/main.php';
 
-$accountID = $_POST['accountID'];
-$gjp = $_POST['gjp'];
-$ms = $_POST['mS'];
-$frs = $_POST['frS'];
-$cs = $_POST['cS'];
-$yt = $_POST['yt'];
-$twitter = $_POST['twitter'];
-$twitch = $_POST['twitch'];
+$accountID = post::number($_POST['accountID']);
+$gjp = post::clear($_POST['gjp']);
+$ms = post::number($_POST['mS']);
+$frs = post::number($_POST['frS']);
+$cs = post::number($_POST['cS']);
+$yt = post::clear($_POST['yt']);
+$twitter = post::clear($_POST['twitter']);
+$twitch = post::clear($_POST['twitch']);
 
 GJP::check($accountID, $gjp);
 $query = $db->prepare("UPDATE accounts SET

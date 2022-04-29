@@ -2,15 +2,15 @@
 require "lib/db.php";
 require "lib/main.php";
 
-$type = $_POST['type'];
-//$diff = $_POST['diff'];
-$featured = $_POST['featured'];
-$epic = $_POST['epic'];
-$original = $_POST['original'];
-$page = $_POST['page'];
-//$len = $_POST['len'];
-$str = $_POST['str'];
-$twoPlayer = $_POST['twoPlayer'];
+$type = post::number($_POST['type']);
+//$diff = post::clear($_POST['diff']);
+$featured = post::number($_POST['featured']);
+$epic = post::number($_POST['epic']);
+$original = post::number($_POST['original']);
+$page = post::number($_POST['page']);
+//$len = post::clear($_POST['len']);
+$str = post::clear($_POST['str']);
+$twoPlayer = post::number($_POST['twoPlayer']);
 
 $lvlsmultistring = array();$lvlstring = "";$userstring = "";$songsstring = "";
 $offset = $page * 10;
@@ -49,6 +49,22 @@ if($type == 2) { //params without anything
 				$songsstring .= $song . "~:~";
 			}
 			$userstring .= main::getUserString($level1)."|";
+		}
+	}
+} else if($type == 4) { //recent
+	$q = "SELECT * FROM levels WHERE (" . implode(") AND (", $qparams) . ") ORDER BY timestamp DESC LIMIT 10 OFFSET $offset";
+	$query = $db->prepare($q);
+	$query->execute();
+	$levels = $query->fetchAll();
+	foreach($levels as $level) {
+		$lvlsmultistring[] = $level["levelID"];
+		$lvlstring .= "1:".$level["levelID"].":2:".$level["levelName"].":5:".$level["levelVersion"].":6:".$level["accountID"].":8:10:9:".$level["starDifficulty"].":10:".$level["downloads"].":12:".$level["audioTrack"].":13:21:14:".$level["likes"].":17:".$level["starDemon"].":43:".$level["starDemonDiff"].":25:".$level["auto"].":18:".$level["starStars"].":19:".$level["featured"].":42:".$level["epic"].":45:".$level["objects"].":3:".$level["levelDesc"].":15:".$level["levelLength"].":30:".$level["original"].":31:".$level['twoPlayer'].":37:".$level["coins"].":38:".$level["starCoins"].":39:".$level["requestedStars"].":46:1:47:2:40:".$level["ldm"].":35:".$level["songID"]."|";
+		if($level["songID"] != 0) {
+			$song = main::getSongString($level);
+			if($song) {
+				$songsstring .= $song . "~:~";
+			}
+			$userstring .= main::getUserString($level)."|";
 		}
 	}
 }

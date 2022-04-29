@@ -2,9 +2,9 @@
 require 'lib/db.php';
 require 'lib/main.php';
 
-$gjp = $_POST['gjp'];
-$accountID = $_POST['accountID'];
-$commentID = $_POST['commentID'];
+$gjp = post::clear($_POST['gjp']);
+$accountID = post::number($_POST['accountID']);
+$commentID = post::number($_POST['commentID']);
 
 GJP::check($accountID, $gjp);
 $query = $db->prepare("DELETE FROM comments WHERE accountID = :accID AND commentID = :commentID");

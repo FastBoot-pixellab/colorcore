@@ -2,9 +2,9 @@
 require 'lib/db.php';
 require 'lib/main.php';
 
-$accountID = $_POST['accountID'];
-$gjp = $_POST['gjp'];
-$comment = $_POST['comment'];
+$accountID = post::number($_POST['accountID']);
+$gjp = post::clear($_POST['gjp']);
+$comment = post::clear($_POST['comment']);
 
 GJP::check($accountID, $gjp);
 $decodecomment = base64_decode($comment);

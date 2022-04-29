@@ -2,29 +2,29 @@
 require 'lib/db.php';
 require 'lib/main.php';
 
-$accountID = $_POST['accountID'];
-$gjp = $_POST['gjp'];
-$levelID = $_POST['levelID'];
-$levelName = $_POST['levelName'];
-$levelDesc = $_POST['levelDesc'];
-$levelVersion = $_POST['levelVersion'];
-$levelLength = $_POST['levelLength'];
-$audioTrack = $_POST['audioTrack'];
-$auto = $_POST['auto'];
-$password = $_POST['password'];
-$original = $_POST['original'];
-$twoPlayer = $_POST['twoPlayer'];
-$songID = $_POST['songID'];
-$objects = $_POST['objects'];
-$coins = $_POST['coins'];
-$requestedStars = $_POST['requestedStars'];
-$unlisted = $_POST['unlisted'];
-$wt = $_POST['wt'];
-$wt2 = $_POST['wt2'];
-$ldm = $_POST['ldm'];
-$extraString = $_POST['extraString'];
-$levelString = $_POST['levelString'];
-$levelInfo = $_POST['levelInfo'];
+$accountID = post::number($_POST['accountID']);
+$gjp = post::clear($_POST['gjp']);
+$levelID = post::number($_POST['levelID']);
+$levelName = post::clear($_POST['levelName']);
+$levelDesc = post::clear($_POST['levelDesc']);
+$levelVersion = post::number($_POST['levelVersion']);
+$levelLength = post::number($_POST['levelLength']);
+$audioTrack = post::number($_POST['audioTrack']);
+$auto = post::number($_POST['auto']);
+$password = post::number($_POST['password']);
+$original = post::number($_POST['original']);
+$twoPlayer = post::number($_POST['twoPlayer']);
+$songID = post::number($_POST['songID']);
+$objects = post::number($_POST['objects']);
+$coins = post::number($_POST['coins']);
+$requestedStars = post::number($_POST['requestedStars']);
+$unlisted = post::number($_POST['unlisted']);
+$wt = post::number($_POST['wt']);
+$wt2 = post::number($_POST['wt2']);
+$ldm = post::number($_POST['ldm']);
+$extraString = post::clear($_POST['extraString']);
+$levelString = post::clear($_POST['levelString']);
+$levelInfo = post::clear($_POST['levelInfo']);
 
 GJP::check($accountID, $gjp);
 $query = $db->prepare("SELECT count(*) FROM levels WHERE accountID = :accountID AND levelName = :levelName");
@@ -103,7 +103,8 @@ if($levelVersion == 1 && $levelID == 0 && $query->fetchColumn() == 0) {
         wt2=:wt2,
         ldm=:ldm,
         extraString=:extraString,
-        levelInfo=:levelInfo
+        levelInfo=:levelInfo,
+        updateTimestamp = :updTime
     WHERE levelID = :ID AND accountID = :accountID");
     $query->execute([
         ':accountID' => $accountID,
@@ -126,6 +127,7 @@ if($levelVersion == 1 && $levelID == 0 && $query->fetchColumn() == 0) {
         ':ldm' => $ldm,
         ':extraString' => $extraString,
         ':levelInfo' => $levelInfo,
+        ':updTime' => time(),
         ':ID' => $levelID,
         ':accountID' => $accountID
     ]);

@@ -2,9 +2,9 @@
 require 'lib/db.php';
 require 'lib/main.php';
 
-$accountID = $_POST['accountID'];
-$gjp = $_POST['gjp'];
-$type = $_POST['type'];
+$accountID = post::number($_POST['accountID']);
+$gjp = post::clear($_POST['gjp']);
+$type = post::number($_POST['type']);
 
 GJP::check($accountID, $gjp);
 if($type == 0) { //friends

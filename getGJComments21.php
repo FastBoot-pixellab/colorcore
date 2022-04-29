@@ -2,9 +2,9 @@
 require 'lib/db.php';
 require 'lib/main.php';
 
-$page = $_POST['page'];
-$mode = $_POST['mode'];
-$count = isset($_POST['count']) ? $_POST['count'] : 10;
+$page = post::number($_POST['page']);
+$mode = post::number($_POST['mode']);
+$count = post::number(isset($_POST['count']) ? $_POST['count'] : 10);
 
 $commentpage = $page * $count;
 $commentstring = "";$userstring = "";$users = array();

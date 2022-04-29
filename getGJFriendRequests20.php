@@ -2,9 +2,9 @@
 require 'lib/db.php';
 require 'lib/main.php';
 
-$accountID = $_POST['accountID'];
-$gjp = $_POST['gjp'];
-$getSent = isset($_POST["getSent"]) ? $_POST["getSent"] : 0;
+$accountID = post::number($_POST['accountID']);
+$gjp = post::clear($_POST['gjp']);
+$getSent = post::number(isset($_POST["getSent"]) ? $_POST["getSent"] : 0);
 $page = $_POST["page"];
 $offset = $page*10;
 if($getSent == 0){

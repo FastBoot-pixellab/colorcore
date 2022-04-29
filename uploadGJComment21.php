@@ -2,11 +2,11 @@
 require 'lib/db.php';
 require 'lib/main.php';
 
-$accountID = $_POST['accountID'];
-$gjp = $_POST['gjp'];
-$comment = $_POST['comment'];
-$levelID = $_POST['levelID'];
-$percent = !empty($_POST["percent"]) ? $_POST["percent"] : 0;
+$accountID = post::number($_POST['accountID']);
+$gjp = post::clear($_POST['gjp']);
+$comment = post::clear($_POST['comment']);
+$levelID = post::number($_POST['levelID']);
+$percent = post::number(!empty($_POST["percent"]) ? $_POST["percent"] : 0);
 
 GJP::check($accountID, $gjp);
 if($comment != '') {

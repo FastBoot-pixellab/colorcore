@@ -2,7 +2,7 @@
 require 'lib/db.php';
 require 'lib/main.php';
 
-$levelID = $_POST['levelID'];
+$levelID = post::number($_POST['levelID']);
 
 $query = $db->prepare("SELECT * FROM levels WHERE levelID = :levelID");
 $query->execute([':levelID' => $levelID]);

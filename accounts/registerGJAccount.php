@@ -43,8 +43,8 @@ if($_POST['userName'] && $_POST['email'] && $_POST['password']) {
                 } else echo '-1';
             } else echo '-3';
         } else {
-            $query1 = $db->prepare("INSERT INTO accounts (userName, password, email, timestamp, IP, token) VALUES (:userName, :password, :email, :timestamp, :IP, :token)");
-            $query1->execute([':userName' => $userName, ':password' => password_hash($password, PASSWORD_DEFAULT), ':email' => $email, ':timestamp' => time(), ':IP' => main::getIP(), ':token' => $token]);
+            $query1 = $db->prepare("INSERT INTO accounts (userName, password, email, timestamp, IP, token, isActive) VALUES (:userName, :password, :email, :timestamp, :IP, :token, :active)");
+            $query1->execute([':userName' => $userName, ':password' => password_hash($password, PASSWORD_DEFAULT), ':email' => $email, ':timestamp' => time(), ':IP' => main::getIP(), ':token' => $token, ':active' => ($activationType == 0) ? 1 : 0]);
             echo '1';
         }
     } else echo '-2';

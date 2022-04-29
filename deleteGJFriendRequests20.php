@@ -2,10 +2,10 @@
 require 'lib/db.php';
 require 'lib/main.php';
 
-$gjp = $_POST['gjp'];
-$accountID = $_POST['accountID'];
-$target = $_POST['targetAccountID'];
-$isSender = $_POST['isSender'];
+$gjp = post::clear($_POST['gjp']);
+$accountID = post::number($_POST['accountID']);
+$target = post::number($_POST['targetAccountID']);
+$isSender = post::number($_POST['isSender']);
 
 GJP::check($accountID, $gjp);
 if($isSender == 1) $query = $db->prepare("DELETE FROM friendreq WHERE fromID = :accID AND toID = :target LIMIT 1");

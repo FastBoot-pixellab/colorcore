@@ -2,8 +2,8 @@
 require 'lib/db.php';
 require 'lib/main.php';
 
-$str = $_POST['str'];
-$page = $_POST['page'];
+$str = post::clear($_POST['str']);
+$page = post::number($_POST['page']);
 
 $offset = $page*10;
 $query = $db->prepare("SELECT * FROM accounts WHERE accountID = :str OR userName LIKE CONCAT('%', :str, '%') ORDER BY stars DESC LIMIT 10 OFFSET $offset");

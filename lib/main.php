@@ -81,6 +81,19 @@ class main {
         }
         $query->execute([':time' => time(), ':stars' => $stars, ':diff' => $diff[0], ':featured' => $feature, ':levelID' => $levelID]);
     }
+    static function suggestLevel($levelID, $diff) {
+        require 'db.php';
+        if($diff[1] == 1) {
+            $query = $db->prepare("UPDATE levels SET auto = 1, starDemon = 0, starDifficulty = :diff WHERE levelID = :levelID");
+        } else if($diff[1] == 2) {
+            $query = $db->prepare("UPDATE levels SET auto = 0, starDemon = 0, starDifficulty = :diff WHERE levelID = :levelID");
+        } else if($diff[1] == 3) {
+            $query = $db->prepare("UPDATE levels SET auto = 0, starDemon = 1, starDifficulty = :diff WHERE levelID = :levelID");
+        } else {
+            $query = $db->prepare("UPDATE levels SET auto = 0, starDemon = 0, starDifficulty = :diff WHERE levelID = :levelID");
+        }
+        $query->execute([':diff' => $diff[0], ':levelID' => $levelID]);
+    }
     static function getDiffFromStars($stars) {
         if($stars == 0) return array(0, 0);
         if($stars == 2) return array(10, 0);
@@ -157,4 +170,15 @@ class Hash {
     static function genSolo2($lvlsmultistring) {
 		return sha1($lvlsmultistring . "xI25fpAapCQg");
 	}
+}
+
+class post {
+    static function clear($str) {
+        if(isset($str)) return $str;
+        else exit('-1');
+    }
+    static function number($num) {
+        if(isset($num)) return preg_replace("/[^0-9]/", '', $num);
+        else exit('-1');
+    }
 }
