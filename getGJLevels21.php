@@ -30,9 +30,6 @@ if($diff != '-') {
 		case '-3': //auto
 			$qparams[] = "starDifficulty = 50 AND auto = 1";
 			break;
-		default:
-			$qparams[] = "starDifficulty IN ($diff)";
-			break;
 	}
 }
 if($type == 2) { //params without anything
