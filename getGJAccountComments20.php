@@ -15,7 +15,7 @@ $countq = $db->prepare("SELECT count(*) FROM acccomments WHERE accountID = :acco
 $countq->execute([':accountID' => $accountID]);
 $commentcount = $countq->fetchColumn();
 foreach($comments as $comment) {
-    $date = date("d/m/Y G:i", $comment["timestamp"]);
+    $date = main::getTime(time() - $comment["timestamp"]);
     $commentstr .= '2~'.base64_encode($comment['comment']).'~3~'.$comment['accountID'].'~4~'.$comment['likes'].'~5~0~7~'.$comment['isSpam'].'~9~'.$date.'~6~'.$comment['ID'].'|';
 }
 $commentstr = substr($commentstr, 0, -1);

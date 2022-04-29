@@ -10,8 +10,8 @@ $level = $query->fetch();
 if(file_exists(dirname(__FILE__) . "/levels/$levelID.uwu")) {
     $levelstring = file_get_contents(__DIR__ . "/levels/$levelID.uwu");
 } else exit('-1');
-$uploadDate = date("d-m-Y G-i", $level['timestamp']);
-$updateDate = date("d-m-Y G-i", $level["updateTimestamp"]);
+$uploadDate = main::getTime(time() - $level['timestamp']);
+$updateDate = main::getTime(time() - $level["updateTimestamp"]);
 $pass = $level["password"];
 $xorPass = '';
 $desc = $level["levelDesc"];

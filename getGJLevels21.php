@@ -3,7 +3,7 @@ require "lib/db.php";
 require "lib/main.php";
 
 $type = post::number($_POST['type']);
-//$diff = post::clear($_POST['diff']);
+$diff = post::clear($_POST['diff']);
 $featured = post::number($_POST['featured']);
 $epic = post::number($_POST['epic']);
 $original = post::number($_POST['original']);
@@ -19,6 +19,22 @@ if($featured == 1) $qparams[] = "featured = 1";
 if($epic == 1) $qparams[] = "epic = 1";
 if($original == 1) $qparams[] = "original = 1";
 if($twoPlayer == 1) $qparams[] = "twoPlayer = 1";
+if($diff != '-') {
+	switch($diff) {
+		case '-1': //NA
+			$qparams[] = "starDifficulty = 0";
+			break;
+		case '-2': //demon
+			$qparams[] = "starDifficulty = 50 AND starDemon = 1";
+			break;
+		case '-3': //auto
+			$qparams[] = "starDifficulty = 50 AND auto = 1";
+			break;
+		default:
+			$qparams[] = "starDifficulty IN ($diff)";
+			break;
+	}
+}
 if($type == 2) { //params without anything
 	$q = "SELECT * FROM levels WHERE (" . implode(") AND (", $qparams) . ") LIMIT 10 OFFSET $offset";
 	$query = $db->prepare($q);
