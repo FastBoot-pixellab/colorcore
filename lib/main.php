@@ -14,13 +14,15 @@ class main {
     }
     static function checkAccount($userName, $password) {
         include 'db.php';
-        $query = $db->prepare("SELECT password, isBanned FROM accounts WHERE userName = :userName");
+        $query = $db->prepare("SELECT password, isBanned, isActive FROM accounts WHERE userName = :userName");
         $query->execute([':userName' => $userName]);
         if($query->rowCount() > 0) {
             $account = $query->fetch();
             if($account['isBanned'] != 1) {
-                if(password_verify($password, $account['password'])) return 1;
-                else return -1;
+                if($account['isActive'] == 1) {
+                    if(password_verify($password, $account['password'])) return 1;
+                    else return -1;
+                } else return -3;
             } else return -2;
         } else return -1;
     }
@@ -89,6 +91,20 @@ class main {
         if($stars == 10) return array(50, 3);
         if($stars == 1) return array(50, 1);
     }
+    static function genToken() {
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $token = '';
+        for($i = 0;$i<8;$i++) {
+            $token .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        return $token;
+    }
+    static function checkEmail($email) {
+        $allowed = array('yandex.ru', 'mail.ru', 'gmail.com');
+        $domain = explode('@', $email)[1];
+        if(in_array($domain, $allowed)) return false;
+        else return true;
+    }
 }
 
 class GJP {
@@ -104,8 +120,9 @@ class GJP {
     static function check($accountID, $gjp) {
         require dirname(__FILE__).'/db.php';
         $gjpdecode = GJP::decode($gjp);
-        $query = $db->prepare("SELECT password FROM accounts WHERE accountID = :ID");
+        $query = $db->prepare("SELECT password FROM accounts WHERE accountID = :ID AND isActive = 1");
         $query->execute([':ID' => $accountID]);
+        if($query->rowCount() == 0) exit('-1');
         $hash = $query->fetchColumn();
         if(password_verify($gjpdecode, $hash)) return;
         else exit('-1');
