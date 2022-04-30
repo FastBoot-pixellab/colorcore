@@ -1,6 +1,7 @@
 <?php
 require '../lib/db.php';
 require '../lib/main.php';
+require '../lib/PluginManager.php';
 include '../config/security.php';
 use PHPMailer\PHPMailer\PHPMailer;
 require_once '../lib/PHPMailer/Exception.php';
@@ -8,9 +9,14 @@ require_once '../lib/PHPMailer/PHPMailer.php';
 require_once '../lib/PHPMailer/SMTP.php';
 
 if($_POST['userName'] && $_POST['email'] && $_POST['password']) {
-    $userName = $_POST['userName'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $userName = post::clear($_POST['userName']);
+    $email = post::clear($_POST['email']);
+    $password = post::clear($_POST['password']);
+    $plugins = PluginManager::init();
+    foreach($plugins as $plugin) {
+        require __DIR__."/../plugins/$plugin.php";
+        if(method_exists($plugin, "on_registerGJAccount")) $plugin::on_registerGJAccount($userName, $email, $password);
+    }
     $query = $db->prepare("SELECT * FROM accounts WHERE userName = :userName");
     $query->execute([':userName' => $userName]);
     if($query->rowCount() == 0) {

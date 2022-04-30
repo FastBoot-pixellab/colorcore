@@ -1,6 +1,7 @@
 <?php
 require 'lib/db.php';
 require 'lib/main.php';
+require 'lib/GJP.php';
 
 $gjp = post::clear($_POST['gjp']);
 $accountID = post::number($_POST['accountID']);

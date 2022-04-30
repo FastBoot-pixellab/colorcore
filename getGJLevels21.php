@@ -1,6 +1,7 @@
 <?php
 require "lib/db.php";
 require "lib/main.php";
+require "lib/Hash.php";
 
 $type = post::number($_POST['type']);
 $diff = post::clear($_POST['diff']);
@@ -84,6 +85,6 @@ if($type == 2) { //params without anything
 $lvlstring = substr($lvlstring, 0, -1);
 $userstring = substr($userstring, 0, -1);
 $songsstring = substr($songsstring, 0, -3);
-echo $lvlstring."#".$userstring;
+echo $lvlstring.'#'.$userstring;
 echo '#'.$songsstring.'#'.$query->rowCount().':'.$offset.':10#';
 echo Hash::genMulti($lvlsmultistring);

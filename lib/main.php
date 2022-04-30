@@ -153,58 +153,6 @@ class main {
     }
 }
 
-class GJP {
-    static function decode($gjp) {
-        require dirname(__FILE__).'/XORCipher.php';
-        $cipher = new XORCipher();
-        $gjpdecode = str_replace('_', '/', $gjp);
-		$gjpdecode = str_replace('-', '+', $gjpdecode);
-		$gjpdecode = base64_decode($gjpdecode);
-		$gjpdecode = $cipher->cipher($gjpdecode, 37526);
-        return $gjpdecode;
-    }
-    static function check($accountID, $gjp) {
-        require dirname(__FILE__).'/db.php';
-        $gjpdecode = GJP::decode($gjp);
-        $query = $db->prepare("SELECT password FROM accounts WHERE accountID = :ID AND isActive = 1");
-        $query->execute([':ID' => $accountID]);
-        if($query->rowCount() == 0) exit('-1');
-        $hash = $query->fetchColumn();
-        if(password_verify($gjpdecode, $hash)) return;
-        else exit('-1');
-    }
-}
-
-class Hash {
-	static function genMulti($lvlsarray) {
-		include "db.php";
-		$hash = "";
-		foreach($lvlsarray as $id){
-			$query=$db->prepare("SELECT levelID, starStars, starCoins FROM levels WHERE levelID = :id");
-			$query->execute([':id' => $id]);
-			$result2 = $query->fetchAll();
-			$result = $result2[0];
-			$hash = $hash . $result["levelID"][0].$result["levelID"][strlen($result["levelID"])-1].$result["starStars"].$result["starCoins"];
-		}
-		return sha1($hash . "xI25fpAapCQg");
-	}
-    static function genSolo($levelstring) {
-		$hash = "aaaaa";
-		$len = strlen($levelstring);
-		$divided = intval($len/40);
-		$p = 0;
-		for($k = 0; $k < $len ; $k= $k+$divided){
-			if($p > 39) break;
-			$hash[$p] = $levelstring[$k]; 
-			$p++;
-		}
-		return sha1($hash . "xI25fpAapCQg");
-	}
-    static function genSolo2($lvlsmultistring) {
-		return sha1($lvlsmultistring . "xI25fpAapCQg");
-	}
-}
-
 class post {
     static function clear($str) {
         if(isset($str)) return $str;
