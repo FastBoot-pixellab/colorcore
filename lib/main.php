@@ -18,12 +18,12 @@ class main {
         $query->execute([':userName' => $userName]);
         if($query->rowCount() > 0) {
             $account = $query->fetch();
-            if($account['isBanned'] != 1) {
-                if($account['isActive'] == 1) {
-                    if(password_verify($password, $account['password'])) return 1;
-                    else return -1;
-                } else return -3;
-            } else return -2;
+            if(password_verify($password, $account['password'])) {
+                if($account['isBanned'] != 1) {
+                    if($account['isActive'] == 1) return 1;
+                    else return -3;
+                } else return -2;
+            } else return -1;
         } else return -1;
     }
     static function getBadge($accountID) {
