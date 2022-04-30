@@ -9,8 +9,11 @@ class GJP {
 		$gjpdecode = $cipher->cipher($gjpdecode, 37526);
         return $gjpdecode;
     }
-    static function check($accountID, $gjp) {
+    static function check() {
         require dirname(__FILE__).'/db.php';
+        //require dirname(__FILE__).'/main.php';
+        $accountID = post::number($_POST['accountID']);
+        $gjp = post::clear($_POST['gjp']);
         $gjpdecode = GJP::decode($gjp);
         $query = $db->prepare("SELECT password FROM accounts WHERE accountID = :ID AND isActive = 1");
         $query->execute([':ID' => $accountID]);

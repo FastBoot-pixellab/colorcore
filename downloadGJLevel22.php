@@ -1,6 +1,7 @@
 <?php
 require 'lib/db.php';
 require 'lib/main.php';
+require 'lib/Hash.php';
 
 $levelID = post::number($_POST['levelID']);
 

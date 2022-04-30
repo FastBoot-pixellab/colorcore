@@ -4,7 +4,6 @@ require 'lib/main.php';
 require 'lib/GJP.php';
 
 $accountID = post::number($_POST['accountID']);
-$gjp = post::clear($_POST['gjp']);
 $userName = post::clear($_POST['userName']);
 $stars = post::number($_POST['stars']);
 $demons = post::number($_POST['demons']);
@@ -26,7 +25,7 @@ $accSpider = post::number($_POST['accSpider']);
 $accExplosion = post::number($_POST['accExplosion']);
 $special = post::number($_POST['special']);
 
-GJP::check($accountID, $gjp);
+GJP::check();
 $query = $db->prepare("UPDATE accounts SET
     stars=:stars,
     demons=:demons,

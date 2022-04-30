@@ -4,11 +4,10 @@ require 'lib/main.php';
 require 'lib/GJP.php';
 
 $accountID = post::number($_POST['accountID']);
-$gjp = post::clear($_POST['gjp']);
 $levelID = post::number($_POST['levelID']);
 $rating = post::number($_POST['rating']);
 
-GJP::check($accountID, $gjp);
+GJP::check();
 $badge = main::getBadge($accountID);
 if($badge == 1 || $badge == 2) {
     $query = $db->prepare("UPDATE levels SET starDemonDiff = :diff WHERE starDemon = 1 AND levelID = :levelID");

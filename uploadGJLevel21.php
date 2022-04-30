@@ -4,7 +4,6 @@ require 'lib/main.php';
 require 'lib/GJP.php';
 
 $accountID = post::number($_POST['accountID']);
-$gjp = post::clear($_POST['gjp']);
 $levelID = post::number($_POST['levelID']);
 $levelName = post::clear($_POST['levelName']);
 $levelDesc = post::clear($_POST['levelDesc']);
@@ -27,7 +26,7 @@ $extraString = post::clear($_POST['extraString']);
 $levelString = post::clear($_POST['levelString']);
 $levelInfo = post::clear($_POST['levelInfo']);
 
-GJP::check($accountID, $gjp);
+GJP::check();
 $query = $db->prepare("SELECT count(*) FROM levels WHERE accountID = :accountID AND levelName = :levelName");
 $query->execute([':accountID' => $accountID, ':levelName' => $levelName]);
 if($levelVersion == 1 && $levelID == 0 && $query->fetchColumn() == 0) {

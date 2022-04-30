@@ -4,10 +4,9 @@ require 'lib/main.php';
 require 'lib/GJP.php';
 
 $accountID = post::number($_POST['accountID']);
-$gjp = post::clear($_POST['gjp']);
 $type = post::number($_POST['type']);
 
-GJP::check($accountID, $gjp);
+GJP::check();
 if($type == 0) { //friends
     $q = "SELECT * FROM friends WHERE person1 = :accountID OR person2 = :accountID";
 } else if($type == 1) { //blocks

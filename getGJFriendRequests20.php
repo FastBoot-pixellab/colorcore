@@ -4,10 +4,10 @@ require 'lib/main.php';
 require 'lib/GJP.php';
 
 $accountID = post::number($_POST['accountID']);
-$gjp = post::clear($_POST['gjp']);
 $getSent = post::number(isset($_POST["getSent"]) ? $_POST["getSent"] : 0);
 $page = $_POST["page"];
 $offset = $page*10;
+GJP::check();
 if($getSent == 0){
 	$q = "SELECT * FROM friendreq WHERE toID = :accountID LIMIT 10 OFFSET $offset";
 	$countquery = "SELECT count(*) FROM friendreq WHERE toID = :accountID";

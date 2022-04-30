@@ -4,12 +4,11 @@ require 'lib/main.php';
 require 'lib/GJP.php';
 
 $accountID = post::number($_POST['accountID']);
-$gjp = post::clear($_POST['gjp']);
 $itemID = post::number($_POST['itemID']);
 $like = post::number(($_POST['like'] == 1) ? 1 : 0);
 $type = post::number($_POST['type']);
 
-GJP::check($accountID, $gjp);
+GJP::check();
 if($type == 1) { //level
     if($like == 1) $query = $db->prepare("UPDATE levels SET likes = (likes + 1) WHERE levelID = :itemID");
     else if($like == 0) $query = $db->prepare("UPDATE levels SET likes = (likes - 1) WHERE levelID = :itemID");
